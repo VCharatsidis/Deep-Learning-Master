@@ -1,0 +1,394 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{physics}
+\usepackage{ amssymb }
+
+
+\title{Practical 1}
+\author{Vasileios Charatsidis}
+\usepackage{chngcntr}
+\counterwithin*{equation}{section}
+\begin{document}
+\maketitle
+
+\section{Exersise 1}
+\subsection{Compute (generalized) derivatives of the loss function, with respect to the weights.}
+\begin{equation}
+\mathcal{L} = 0.5 * (y_{out} - y_{gt})^2
+\end{equation}
+
+\begin{equation} \mbox{\textbf{for }} \boldsymbol{\frac{\partial \mathcal{L}}{\partial W_{out}}} \nonumber \end{equation}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{out}} = \frac{\partial \mathcal{L}}{\partial y_{out}} \cdot \frac{\partial y_{out}}{\partial s_{out}} \cdot \frac{\partial s_{out}}{\partial W_{out}}  \Rightarrow
+\end{equation}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{out}} = (y_{out} - s_{out}) \cdot \frac{\partial f_{3}(s_{out})}{\partial s_{out}} \cdot \frac{\partial (W_{out} \cdot z_2)}{\partial W_{out}}  \Rightarrow
+\nonumber \end{equation}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{out}} = (y_{out} - s_{out}) \cdot  f\;'_{3}(s_{out}) \cdot z_2 
+\nonumber \end{equation}
+
+\begin{equation} \mbox{\textbf{for }} \boldsymbol{\frac{\partial \mathcal{L}}{\partial W_{2}}} \nonumber \end{equation}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{2}} = \frac{\partial \mathcal{L}}{\partial y_{out}} \cdot \frac{\partial y_{out}}{\partial s_{out}} \cdot \frac{\partial s_{out}}{\partial z_{2}} \cdot \frac{\partial z_{2}}{\partial s_{2}} \cdot \frac{\partial s_{2}}{\partial W_{2}} \Rightarrow
+\end{equation}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{2}} = (y_{out} - s_{out}) \cdot  f\;'_{3}(s_{out}) \cdot W_{out} \cdot f\;'_{2}(s_{2}) \cdot z_1 
+\nonumber \end{equation}
+
+\begin{equation} \mbox{\textbf{similarly for }}  \boldsymbol{\frac{\partial \mathcal{L}}{\partial W_{1}} \nonumber} \end{equation}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{1}} = \frac{\partial \mathcal{L}}{\partial y_{out}} \cdot \frac{\partial y_{out}}{\partial s_{out}} \cdot \frac{\partial s_{out}}{\partial z_{2}} \cdot \frac{\partial z_{2}}{\partial s_{2}} \cdot \frac{\partial s_{2}}{\partial z_{1}} \cdot \frac{\partial z_{1}}{\partial s_{1}} \cdot \frac{\partial s_{1}}{\partial W_{1}} \Rightarrow
+\end{equation}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{1}} = (y_{out} - s_{out}) \cdot  f\;'_{3}(s_{out}) \cdot W_{out} \cdot f\;'_{2}(s_{2}) \cdot W_{2} \cdot f\;'_{1}(s_{1}) \cdot x_{in}
+\nonumber \end{equation}
+
+\subsection{Write down \texorpdfstring{$\Delta W_k$}{TEXT} in terms of \texorpdfstring{$\delta_k$}{TEXT}}
+
+\begin{equation}
+\mbox{{We know that: }}
+\delta_k = \frac{\partial \mathcal{L}}{\partial s_{k}}
+\mbox{{ and that: }}
+\frac{\partial \mathcal{L}}{\partial s_{k}} = \frac{\partial \mathcal{L}}{\partial z_{k}} \cdot \frac{\partial z_k}{\partial s_{k}}
+\nonumber \end{equation}
+
+\begin{equation}
+\mbox{{So: }}
+\delta_k = \frac{\partial \mathcal{L}}{\partial z_{k}} \cdot \frac{\partial z_k}{\partial s_{k}}
+\end{equation}
+
+We can rewrite equations (2), (3) and (4) as:
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{out}} = \underbrace {\frac{\partial \mathcal{L}}{\partial z_{out}} \cdot \frac{\partial z_{out}}{\partial s_{out}}}_{\delta_{out}} \cdot \frac{\partial s_{out}}{\partial W_{out}} \Rightarrow
+\nonumber \end{equation}
+
+\begin{equation}
+\Delta W_{out} =\frac{\partial \mathcal{L}}{\partial W_{out}} = \delta_{out} \cdot \frac{\partial s_{out}}{\partial W_{out}} = \delta_{out} \cdot z_{2}
+\end{equation}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{2}} = {\frac{\partial \mathcal{L}}{\partial z_{out}} \cdot \frac{\partial z_{out}}{\partial s_{out}} \cdot \frac{\partial s_{out}}{\partial z_{2}} \cdot \frac{\partial z_{2}}{\partial s_{2}}} \cdot \frac{\partial s_{2}}{\partial W_{2}} 
+\end{equation}
+
+\begin{equation}
+\delta_2 = \frac{\partial \mathcal{L}}{\partial s_{2}} = \frac{\partial \mathcal{L}}{\partial z_{out}} \cdot \frac{\partial z_{out}}{\partial s_{out}} \cdot \frac{\partial s_{out}}{\partial z_{2}} \cdot \frac{\partial z_{2}}{\partial s_{2}} 
+\end{equation}
+
+\begin{equation}
+\mbox{from (7) and (8) is implied that }
+\Delta W_2 = \frac{\partial \mathcal{L}}{\partial W_{2}} = \delta_2 \cdot \frac{\partial s_{2}}{\partial W_{2}} = \delta_2 \cdot z_1
+\end{equation}
+
+\begin{equation}
+\mbox{similarly for }
+\delta_1
+\nonumber \end{equation}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial W_{1}} = \underbrace{\frac{\partial \mathcal{L}}{\partial z_{out}} \cdot \frac{\partial z_{out}}{\partial s_{out}} \cdot \frac{\partial s_{out}}{\partial z_{2}} \cdot \frac{\partial z_{2}}{\partial s_{2}} \cdot \frac{\partial s_{2}}{\partial z_{1}} \cdot \frac{\partial z_{1}}{\partial s_{1}}}_{\delta_1} \cdot \frac{\partial s_{1}}{\partial W_{1}} \Rightarrow 
+\nonumber \end{equation}
+
+\begin{equation}
+\mbox{is implied that }
+\Delta W_1 = \frac{\partial \mathcal{L}}{\partial W_{1}} = \delta_1 \cdot \frac{\partial s_{1}}{\partial W_{1}} =\delta_1 \cdot x_{in}
+\end{equation}
+
+% Exercise 2-----------------------------------------------------
+\section{Exercise 2}
+
+\begin{gather}
+x = 
+ \begin{bmatrix} x_1^{(1)} & x_2^{(1)} & x_2^{(1)} & x_4^{(1)} \\ x_1^{(2)} & x_2^{(2)} & x_3^{(2)} & x_4^{(2)} \end{bmatrix}
+ =
+ \begin{bmatrix} 0.75 & 0.2 & -0.75 & 0.2 \\ 0.8 & 0.05 & 0.8 & -0.05 \end{bmatrix}
+ \nonumber 
+\end{gather}
+
+\begin{gather}
+W = 
+ \begin{bmatrix} W_{11} & W_{21} & W_{31} \\ W_{12} & W_{22} & W_{32} &\end{bmatrix}
+ =
+ \begin{bmatrix} 0.6 & 0.7 & 0.0 \\ 0.01 & 0.43 & 0.88 \end{bmatrix}
+ \nonumber 
+\end{gather}
+
+\begin{gather}
+w = 
+ \begin{bmatrix} w_{1}  \\ w_{2} \\ w_{3}\end{bmatrix}
+ \nonumber 
+  =
+ \begin{bmatrix} 0.02 \\ 0.03 \\ 0.9 \end{bmatrix}
+\end{gather}
+
+\begin{gather}
+y = 
+ \begin{bmatrix} y_1  & y_2 & y_3 & y_4 \end{bmatrix}
+ \nonumber 
+  = 
+ \begin{bmatrix} 1 & 1 & -1 & -1 \end{bmatrix}
+\end{gather}
+
+\begin{equation}
+\alpha = 0.05
+\nonumber \end{equation}
+
+% End of inputs ---------------------------------------------------
+
+\begin{equation}
+s_1 = W^T \cdot x
+\end{equation}
+
+\begin{equation}
+z_1 = ReLU(s_1)
+\end{equation}
+
+\begin{equation}
+s_{out} = w^T \cdot z_1
+\end{equation}
+
+\begin{equation}
+y_{out} = z_{out} = tanh(s_{out})
+\end{equation}
+
+\begin{equation}
+\mathcal{L} = 0.5 \cdot (y_{out} - y)^2
+\end{equation}
+
+\begin{equation}
+\delta_{out} = \frac{\partial \mathcal{L}}{\partial s_{out}}
+\end{equation}
+
+\begin{equation}
+\delta_1 = \delta_{out} \cdot w \cdot \frac{\partial f_{(s_{1})}}{\partial s_{1}}
+\end{equation}
+
+\begin{equation}
+\Delta w = \delta_{out} \cdot z_1 
+\end{equation}
+
+\begin{equation}
+\Delta W = \delta_1 \cdot x_1 
+\end{equation}
+
+\begin{equation}
+\Delta W = \delta_1 \cdot x_1 
+\end{equation}
+
+\begin{equation}
+W = W - \alpha \cdot \Delta W 
+\end{equation}
+
+\begin{equation}
+w = w - \alpha \cdot \Delta w 
+\end{equation}
+
+%------------------------------------------------------------------
+If we follow the steps from 1 to 12 with our given input we have done 1 iteration of forward and backward pass.
+
+\subsection{iteration 1}
+
+\begin{gather}s_1 = \begin{bmatrix} 0.458 & 0.1205 & -0.442 & 0.1195 \\ 0.869 & 0.1615 &-0.181 & 0.1185 \\ 0.704 & 0.044 & 0.704 & -0.044 \end{bmatrix}\nonumber \end{gather} 
+
+\begin{gather}z_1 = \begin{bmatrix} 0.458 & 0.1205 & 0 & 0.1195 \\ 0.869 & 0.1615 & 0 & 0.1185 \\ 0.704 & 0.044 & 0.704 & 0 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}s_{out} = \begin{bmatrix} 0.09859 & 0.011215 & 0.06336 & 0.005945 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}y_{out} = z_{out} = \begin{bmatrix} 0.09827181 & 0.01121453 & 0.06327535 & 0.00594493 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\mathcal{L} = \begin{bmatrix} 0.40655687 & 0.48884835 & 0.56527723 & 0.5059626 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\delta_{out} = \begin{bmatrix} -0.89301989 & -0.98866111 & 1.05901824 & 1.00590938 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\delta_1 = \begin{bmatrix} -0.0178604  & -0.01977322 & 0 &  0.02011819 \\ -0.0267906 & -0.02965983 & 0 & 0.03017728 \\ -0.08037179 & -0.0889795 & 0.09531164 & 0 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\Delta w = \begin{bmatrix} -0.4079306 & -0.81650279 & 0.07336175 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}
+\Delta W =
+ \begin{bmatrix} -0.01332631 & -0.01998946 & -0.14955847 \\ -0.01628289 & -0.02442433 & 0.00750291 \end{bmatrix}
+ \nonumber 
+\end{gather}
+
+\begin{gather} w\;' = \begin{bmatrix} -0.4079306 & -0.81650279 & 0.07336175 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}
+W\;' =
+ \begin{bmatrix} 0.60133263 & 0.70199895 & 0.01495585 \\ 0.01162829 & 0.43244243 & 0.87924971 \end{bmatrix}
+ \nonumber 
+\end{gather}
+
+% iteration 2 ------------------------------------------------------------
+\subsection{iteration 2}
+
+\begin{gather}s_1 = \begin{bmatrix} 0.460302 & 0.120848 & -0.441697 & 0.119685 \\ 0.872453 & 	0.162022 & 	-0.180545 & 0.118778 \\ 0.714617 & 0.0469537 &	0.692183 &	-0.0409713 \end{bmatrix}\nonumber \end{gather} 
+
+\begin{gather}z_1 = \begin{bmatrix} 0.46030 & 0.120848 & 0 & 0.119685 \\ 0.872453 &	0.162022 & 0 & 0.118778 \\ 0.714617 & 0.0469537 & 0.692183 & 0 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}s_{out} = \begin{bmatrix} 0.184466 &	0.0293179 &	0.0572185 &	0.0205376
+ \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}y_{out} = z_{out} = \begin{bmatrix} 0.182402 &	0.0293095 &	0.0571561 &	0.0205347
+\end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\mathcal{L} = \begin{bmatrix} 0.334234 &	0.47112 &	0.55879 &	0.520746
+ \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\delta_{out} = \begin{bmatrix} -0.790397 &	-0.969857 &	1.0537 &	1.0201
+\end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\delta_1 = \begin{bmatrix} -0.0480506 & -0.0589606 & 0 &	0.0620153 \\ -0.088248 & -0.108285 &	0 &	0.113895 \\ -0.0653372 & -0.0801721 & 0.0871031 & 0 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\Delta w = \begin{bmatrix} -0.358935 & -0.725557 & 0.118986 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}
+\Delta W =
+\begin{bmatrix} -0.035427 & -0.065064 & -0.130365 \\ -0.0444893 & -0.0817074 & 0.0134041 \end{bmatrix}
+\nonumber \end{gather}
+
+\begin{gather} w\;' = \begin{bmatrix} 0.0966866 & 0.184206 & 0.0707652 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}
+W\;' =
+\begin{bmatrix} 0.604875 &	0.708505 & 0.0279923 \\ 0.0160772 &	0.440613 & 0.877909 \end{bmatrix}
+\nonumber \end{gather}
+
+% iteration 3 ----------------------------------------------------------------
+
+\subsection{iteration 3}
+
+\begin{gather}s_1 = \begin{bmatrix} 0.466518 & 0.121779 & -0.440795 & 0.120171 \\ 0.88387 & 0.163732 & -0.178888 & 0.11967 \\ 0.723322 & 0.0494939 & 0.681333 & -0.038297 \end{bmatrix}\nonumber \end{gather} 
+
+\begin{gather}z_1 = \begin{bmatrix} 0.466518 & 0.121779 & 0 & 0.120171 \\ 0.88387 & 0.163732 & 0 & 0.11967 \\ 0.723322 & 0.0494939 & 0.681333 & 0 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}s_{out} = \begin{bmatrix} 0.259106 &	0.0454372 &	0.0482147 &	0.0336629
+\end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}y_{out} = z_{out} = \begin{bmatrix} 0.253459 & 0.0454059 &	0.0481774 &	0.0336502
+\end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\mathcal{L} = \begin{bmatrix} 0.278662 &	0.455625 &	0.549338 &	0.534216
+ \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\delta_{out} = \begin{bmatrix} -0.698582 & -0.952626 & 1.04574 & 1.03248
+\end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\delta_1 = \begin{bmatrix} -0.0675435 & -0.0921061 & 0 &	0.0998269 \\ -0.128683 &	-0.175479 &	0 &	0.190189 \\ -0.0494353 &	-0.0674128 &	0.0740024 &	0 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}\Delta w = \begin{bmatrix} -0.317837 & -0.649873 & 0.160052 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}
+\Delta W =
+\begin{bmatrix} -0.0491135 &	-0.0935703 &	-0.106061 \\ -0.0636314 &	-0.12123 &	0.016283 \end{bmatrix}
+\nonumber \end{gather}
+
+\begin{gather} w\;' = \begin{bmatrix} 0.12847 & 0.249193 & 0.05476 \end{bmatrix}\nonumber \end{gather}
+
+\begin{gather}
+W\;' =
+\begin{bmatrix} 0.609787 & 0.717862 & 0.0385984 \\ 0.0224404 & 0.452736 &	0.876281\end{bmatrix}
+\nonumber \end{gather}
+
+% Excercise 3 -------------------------------------------------------------------
+
+\section{Exercise 3}
+
+\subsection{Explain, in (your own) words, what this particular loss function is designed to achieve.}
+
+In a case that our classifier predicts some probable classes and assigns probabilities to them Hinge loss function will not punish this multi-prediction, as soon as, the prevailing probability is this of the correct class and the difference between the prevailing probability and the false class probability is within a chosen margin.
+
+If we chose 1 for margin the every error is punished. If we chose 0 for margin then no error is being punished as soon as we predict the correct class.
+
+This might be helpful for faster training and probably have our classifier over-fit less, since it reaches the local minimum faster.
+
+\subsection{Derive the gradient}
+
+\begin{equation}
+\frac{\partial \bar P}{\partial \bar O} = \begin{bmatrix} \frac{\partial p_1}{\partial o_1} & \dots & \frac{\partial p_1}{\partial o_N} \\ \vdots & \ddots & \vdots \\ \frac{\partial p_N}{\partial o_1} & \dots &	\frac{\partial p_N}{\partial o_N} \end{bmatrix}
+\nonumber\end{equation}
+
+\begin{gather}\mathcal{L}_{hinge}^{(1)} = \sum \limits_{j \neq y} \max (0, p_j -  p_{y_i} + margin)\nonumber \end{gather}
+
+\begin{gather} p_i = \frac {exp(o_i)} {\sum \limits_{j} exp(o_j)}\nonumber \end{gather}
+
+\begin{equation}
+\frac{\partial p_i}{\partial o_j} = exp(o_i)\;' \cdot \frac{1}{\sum \limits_{j} exp(o_j)} + exp(o_i) \cdot (\frac{1}{\sum \limits_{j} exp(o_j)})\;'
+\end{equation}
+
+In case i = j:
+
+\begin{equation}
+\frac{\partial p_i}{\partial o_j} = exp(o_i) \cdot \frac{1}{\sum \limits_{j} exp(o_j)} - exp(o_i)\cdot exp(o_j) \cdot \frac{1}{{(\sum \limits_{j} exp(o_j))}^2}
+\nonumber\end{equation}
+
+\begin{equation}
+\frac{\partial p_i}{\partial o_j} = \frac {exp(o_i)} {{\sum \limits_{j} exp(o_j)}} - \frac {exp(o_i)}{\sum \limits_{j} exp(o_j)} \cdot \frac{exp(o_j)}{\sum \limits_{j} exp(o_j)}
+\nonumber\end{equation}
+
+\begin{equation}
+\frac{\partial p_i}{\partial o_j} = p_i - p_i \cdot p_j
+\nonumber\end{equation}
+
+\begin{equation}
+\frac{\partial p_i}{\partial o_j} = p_i \cdot (1 - p_j)
+\end{equation}
+
+In case i $\neq$ j:
+
+\begin{equation}
+\frac{\partial p_i}{\partial o_j} = - exp(o_i)\cdot exp(o_j) \cdot \frac{1}{{(\sum \limits_{j} exp(o_j))}^2}
+\nonumber\end{equation}
+
+\begin{equation}
+\frac{\partial p_i}{\partial o_j} = -p_i \cdot p_j
+\end{equation}
+ 
+from (2) and (3):
+
+\begin{equation}
+\frac{\partial p_i}{\partial o_j} = \left\{ \begin{array}{ll}
+    p_i \cdot (1 - p_j) & i=j \\
+    -p_i \cdot p_j & i \neq j
+    \end{array}
+    \right.
+\end{equation}
+
+Using the Kronecker delta function \begin{equation}
+\delta_{ij} = \left\{ \begin{array}{ll}
+    1 & i=j \\
+    0 & i \neq j
+    \end{array}
+    \right.
+\nonumber\end{equation}
+
+(4) becomes:
+
+\begin{equation}
+\frac{\partial p_i}{\partial o_j} = p_i \cdot (\delta_{ij} - p_j)
+\end{equation}
+
+\begin{gather} \frac {\partial \mathcal{L}_{hinge}}{\partial o_j} = \sum \limits_{k \neq y_i} \max (0,   p_k \cdot (\delta_{kj} - p_j) - p_{y_i} \cdot (\delta_{{y_i}j} - p_j) + margin)\nonumber \end{gather}
+
+
+\end{document}
