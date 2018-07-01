@@ -11,7 +11,7 @@ W = np.array([[0.6, 0.7, 0.0], [0.01, 0.43, 0.88]])
 y = [1, 1, -1, -1]
 a = 0.1
 x = np.matrix([[0.75, 0.2, -0.75, 0.2], [0.8, 0.05, 0.8, -0.05]])
-w = np.matrix([0.02, 0.03, 0.09])
+w = np.matrix([[0.02], [0.03], [0.09]])
 
 variables = {}
     
@@ -31,7 +31,7 @@ def neural_net(W, y, a, x, w):
                 z1[row, col] = 0
     
     
-    s2 = np.dot(w, z1)
+    s2 = np.dot(np.transpose(w), z1)
     
     yout = np.tanh(s2)
     
@@ -41,7 +41,7 @@ def neural_net(W, y, a, x, w):
     
     yout_prime = (1 - np.multiply(yout, yout))
     
-    dout = np.transpose(np.multiply(result, yout_prime))
+    dout = np.multiply(result, yout_prime)
     
     z1_prime = np.zeros(shape = (s1.shape[0], s1.shape[1]))
     
@@ -53,19 +53,18 @@ def neural_net(W, y, a, x, w):
             else:
                 z1_prime[row, col] = 0
     
-    dout_by_w = np.dot(dout, w)
+    dout_by_w = np.dot(w, dout)
     
-    d1 = np.multiply(dout_by_w, np.transpose(z1_prime)) #since all elements of w are > 0
+    d1 = np.multiply(dout_by_w, z1_prime) #since all elements of w are > 0
     
-    Dw = np.dot(np.transpose(dout), np.transpose(z1))
+    Dw = np.dot(z1, np.transpose(dout))
     
-    DW = np.dot(np.transpose(d1), np.transpose(x))
+    DW = np.dot(x, np.transpose(d1))
     
     w = w - np.multiply(a, Dw)
     
-    W = np.transpose(W) - np.multiply(a, DW)
+    W = W - np.multiply(a, DW)
 
-    W = np.transpose(W)
     
     variables = {'s1' : s1, 'z1' : z1, 's2' : s2, 'yout' : yout, 'L' : L, 'dout' : dout, 'd1' : d1, 'DW' : DW, 'Dw' : Dw}
     
